@@ -1,0 +1,5 @@
+dist/
+.npm
+node_modules/
+.terser-minify-cache/
+.vscode/
