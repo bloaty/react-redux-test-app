@@ -12,7 +12,6 @@ const { EnvironmentPlugin } = require("webpack");
 const projectName = path.basename(__dirname);
 const entryPoint = "./src/App.tsx";
 const outputDir = "dist";
-
 const isProductionMode = process.env.NODE_ENV === 'production';
 const publicPath = "/assets/";
 
@@ -63,7 +62,8 @@ const rules = [
                 loader: "css-loader",
                 options: {
                     modules: "local",
-                    camelCase: true,
+                    localIdentName: "[local]__[name]_[sha1:contenthash:base64:6]",
+                    camelCase: "only",
                     importLoaders: 3,
                     sourceMap: !isProductionMode
                 }
@@ -122,6 +122,20 @@ const plugins = [
     ])
 ];
 
+const optimization = {
+    minimize: isProductionMode,
+    minimizer: [
+        new TerserPlugin({
+            test: /\.js$/i,
+            cache: "./.terser-minify-cache/",
+            parallel: true,
+            terserOptions: {
+                warnings: true
+            }
+        })
+    ]
+};
+
 module.exports = {
     entry: {
         app: [ entryPoint ],
@@ -136,17 +150,7 @@ module.exports = {
         ]
     },
     module: { rules },
-    optimization: {
-        minimize: isProductionMode,
-        minimizer: [ new TerserPlugin({
-            test: /\.js$/i,
-            cache: "./.terser-minify-cache/",
-            parallel: true,
-            terserOptions: {
-                warnings: true
-            }
-        }) ]
-    },
+    optimization,
     plugins,
     watch: false
 }
