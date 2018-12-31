@@ -32,6 +32,7 @@
     "@types/react": "16.7.x",
     "@types/react-dom": "16.0.x",
     "@types/react-redux": "6.0.x",
+    "autoprefixer": "9.4.x",
     "awesome-typescript-loader": "5.2.x",
     "clean-webpack-plugin": "1.0.x",
     "css-loader": "2.1.x",
@@ -41,6 +42,9 @@
     "mini-css-extract-plugin": "0.5.x",
     "node-sass": "4.11.x",
     "npm-run-all": "4.1.x",
+    "postcss-flexbugs-fixes": "4.1.x",
+    "postcss-loader": "3.0.x",
+    "resolve-url-loader": "3.0.x",
     "sass-lint": "1.12.x",
     "sass-loader": "7.1.x",
     "source-map-loader": "0.2.x",
@@ -54,6 +58,5 @@
     "webpack-cli": "3.1.x",
     "webpack-dev-server": "3.1.x"
   },
-  "peerDependencies": {
-  }
+  "peerDependencies": {}
 }
