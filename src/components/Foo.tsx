@@ -8,8 +8,8 @@ export interface FooProps {
 }
 
 export const Foo: React.FunctionComponent<FooProps> = (props) => (
-    <div className={styles.h1}>
-        <h1>{props.header}</h1>
+    <div>
+        <h1 className={styles.someClassName}>{props.header}</h1>
         <p>{props.body}</p>
     </div>
 );
