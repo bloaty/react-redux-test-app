@@ -52,6 +52,25 @@ const rules = [
         use: "source-map-loader"
     },
     {
+        test: /\.s(a|c)ss$/i,
+        enforce: "pre",
+        use: [
+            {
+                loader: "typed-css-modules-loader",
+                options: {
+                    noEmit: true,
+                    camelCase: true
+                }
+            },
+            {
+                loader: "sass-loader",
+                options: {
+                    implementation: require("node-sass")
+                }
+            }
+        ]
+    },
+    {
         test: /\.(sa|sc|c)ss$/i,
         use: [
             isProductionMode ? MiniCssExtractPlugin.loader : {

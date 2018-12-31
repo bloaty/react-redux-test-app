@@ -52,6 +52,7 @@
     "terser-webpack-plugin": "1.2.x",
     "tslint": "5.12.x",
     "tslint-react": "3.6.x",
+    "typed-css-modules-loader": "^0.0.17",
     "typescript": "3.2.x",
     "typescript-tslint-plugin": "0.2.x",
     "webpack": "4.28.x",
