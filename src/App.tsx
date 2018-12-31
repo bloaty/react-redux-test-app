@@ -3,8 +3,6 @@ import * as ReactDOM from "react-dom";
 
 import { Foo } from "components/Foo";
 
-import "styles/App.scss";
-
 ReactDOM.render(
     <Foo
         header={"title"}

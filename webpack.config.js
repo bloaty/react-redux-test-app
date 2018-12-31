@@ -1,24 +1,31 @@
 const path = require("path");
 
+const autoprefixer = require("autoprefixer");
 const { TsConfigPathsPlugin } = require("awesome-typescript-loader");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const postCssFlexbugsFixesPlugin = require("postcss-flexbugs-fixes");
 const TerserPlugin = require("terser-webpack-plugin");
 const { EnvironmentPlugin } = require("webpack");
 
+const projectName = path.basename(__dirname);
+const entryPoint = "./src/App.tsx";
+const outputDir = "dist";
+
 const isProductionMode = process.env.NODE_ENV === 'production';
+const publicPath = "/assets/";
 
 const output = {
-    filename: "bundle.js",
-    path: __dirname + "/dist",
-    publicPath: "/assets/"
+    filename: projectName + "-bundle.js",
+    path: path.resolve(__dirname, outputDir),
+    publicPath
 };
 
 const devServer = {
     https: false,
     port: 9876,
-    publicPath: "/assets/",
+    publicPath,
     watchContentBase: true,
     watchOptions: {
         poll: true
@@ -55,15 +62,38 @@ const rules = [
             {
                 loader: "css-loader",
                 options: {
+                    modules: "local",
                     camelCase: true,
+                    importLoaders: 3,
                     sourceMap: !isProductionMode
+                }
+            },
+            {
+                loader: "postcss-loader",
+                options: {
+                    sourceMap: !isProductionMode,
+                    plugins: [
+                        postCssFlexbugsFixesPlugin,
+                        autoprefixer({
+                            browsers: [ "defaults", "not ie < 9" ],
+                            flexbox: "no-2009"
+                        })
+                    ]
+                }
+            },
+            {
+                loader: "resolve-url-loader",
+                options: {
+                    engine: "postcss",
+                    sourceMap: !isProductionMode,
+                    keepQuery: true
                 }
             },
             {
                 loader: "sass-loader",
                 options: {
                     implementation: require("node-sass"),
-                    sourceMap: !isProductionMode
+                    sourceMap: true // required by resolve-url-loader
                 }
             }
         ]
@@ -72,11 +102,11 @@ const rules = [
 
 const plugins = [
     new CleanWebpackPlugin([
-        "dist"
+        outputDir
     ]),
     new HtmlWebpackPlugin({
-        title: "react-redux-test-app",
-        filename: "react-redux-test-app.html",
+        title: projectName,
+        filename: projectName + ".html",
         template: "src/index.html",
         inject: "body",
         minify: false,
@@ -94,13 +124,13 @@ const plugins = [
 
 module.exports = {
     entry: {
-        app: ["./src/App.tsx"],
+        app: [ entryPoint ],
     },
     output,
     devServer, 
     devtool: "cheap-eval-source-map",
     resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json"],
+        extensions: [ ".ts", ".tsx", ".js", ".json" ],
         plugins: [
             new TsConfigPathsPlugin(tsLoaderOptions)
         ]
