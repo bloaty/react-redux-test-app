@@ -4,7 +4,7 @@
         "tslint:recommended",
         "tslint-react"
     ],
-    "jsRules": {},
+    "jsRules": false,
     "rules": {},
     "rulesDirectory": [
         "./node_modules/tslint-react"
